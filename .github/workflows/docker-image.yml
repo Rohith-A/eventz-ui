@@ -1,0 +1,26 @@
+name: Deploy React to AWS
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ASIATUYJP7SULFHUQQW7
+          aws_secret_key: HwOTgsKzz2GbEIHNBOjKF2Mha6uo5bqlhlfplxZq
+          application_name: evntz-node-api-ra
+          environment_name: Evntz-ui-docker-env
+          version_label: ${{ github.sha }}
+          region: ap-south-1
+          deployment_package: deploy.zip
