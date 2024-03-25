@@ -1,0 +1,14 @@
+export const SIGN_UP = 'SIGN_UP';
+export const REGISTRATION_API = 'REGISTRATION_API';
+export const LOGIN = 'LOGIN';
+export const LOGIN_DATA = 'LOGIN_DATA';
+export const TEST = 'TEST';
+export const TEST_API = 'TEST_API'
+export const USERS_LIST_API = 'USERS_LIST_API';
+export const USERS_LIST = 'USERS_LIST'
+export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
+export const UPLOAD_IMAGE_API = 'UPLOAD_IMAGE_API';
+export const FETCH_EVENTS_API = 'FETCH_EVENTS_API';
+export const FETCH_EVENTS = 'FETCH_EVENTS';
+export const ADD_NEW_EVENT_API = 'ADD_NEW_EVENT_API';
+export const ADD_NEW_EVENT = 'ADD_NEW_EVENT';
