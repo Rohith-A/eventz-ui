@@ -17,8 +17,8 @@ jobs:
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v21
         with:
-          aws_access_key: ASIATUYJP7SUNCY4OT7M
-          aws_secret_key: tkENJOWYwkTSU04bL/5d+Q/UBYqjSg5l99t4YODr
+          aws_access_key: ASIATUYJP7SUK5B7EMEO
+          aws_secret_key: eBa+BOtAT72znt1dJCvQrd2PRs+AUiBos9JvIlZi
           application_name: evntz-node-api-ra
           environment_name: Evntz-ui-docker-env
           version_label: ${{ github.sha }}
