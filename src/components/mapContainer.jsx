@@ -61,20 +61,39 @@ const MapContainerComponent = () => {
 
   useEffect(() => {
     if(eventsData?.length) {
-      const loc = navigator.geolocation
-    loc.getCurrentPosition(e => {
+      fetch('https://ipapi.co/json/')
+  .then(response => response.json())
+  .then(data => {
+    const { latitude, longitude } = data;
+    setCurrentLocation({ latitude, longitude })
+    setMockEvents([
+      ...mockEvents,
+      {
+        id: mockEvents.length + 1,
+        name: 'Current location',
+        location: { lat: latitude, lng: longitude }
+      },
+      ...eventsData
+    ])
+    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+  })
+  .catch(error => {
+    console.error('Error fetching location:', error);
+  });
+    //   const loc = navigator.geolocation
+    // loc.getCurrentPosition(e => {
       
-      setCurrentLocation(e.coords)
-      setMockEvents([
-        ...mockEvents,
-        {
-          id: mockEvents.length + 1,
-          name: 'Current location',
-          location: { lat: e?.coords?.latitude, lng: e?.coords?.longitude }
-        },
-        ...eventsData
-      ])
-    })
+    //   setCurrentLocation(e.coords)
+    //   setMockEvents([
+    //     ...mockEvents,
+    //     {
+    //       id: mockEvents.length + 1,
+    //       name: 'Current location',
+    //       location: { lat: e?.coords?.latitude, lng: e?.coords?.longitude }
+    //     },
+    //     ...eventsData
+    //   ])
+    // })
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eventsData])
