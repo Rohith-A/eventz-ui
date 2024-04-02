@@ -16,7 +16,7 @@ export const signUp = (payload) => {
 };
 
 export const login = (payload) => {
-    return action(actionTypes.LOGIN, payload)
+    return action(actionTypes.LOGIN_API, payload)
 }
 
 export const test = (payload) => {
@@ -32,4 +32,26 @@ export const fetchEvents = (payload) => {
 
 export const addNewEvent = (payload) => {
     return action(actionTypes.ADD_NEW_EVENT_API, payload)
+}
+
+export const setProductForBuying = (payload) => {
+    return action(actionTypes.SET_PRODUCT_FOR_BUYING, payload)
+}
+export const ordersByAddressData = (payload) => {
+    return action(actionTypes.ORDERS_BY_ADDRESS_API, payload)
+}
+export const showLoader = (payload) => {
+    return action(actionTypes.LOADER, payload)
+}
+export const bookTicket = (payload) => {
+    return action(actionTypes.BOOK_TICKET_API, payload)
+}
+export const fetchBookings = (payload) => {
+    return action(actionTypes.FETCH_BOOKINGS_API, payload)
+}
+export const setTicketCounter = (payload) => {
+    return action(actionTypes.SET_TICKET_COUNTER, payload)
+}
+export const resetDirections = (payload) => {
+    return action(actionTypes.RESET_DIRECTIONS, payload)
 }
