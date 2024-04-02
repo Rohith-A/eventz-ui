@@ -1,7 +1,7 @@
-import { Box, Card, CardContent, CardMedia, Grid, Link, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardMedia, CircularProgress, Grid, Link, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBookings } from "../actions/actions";
+import { categoryloader, fetchBookings } from "../actions/actions";
 import MenuDrawer from "./MenuDrawer";
 import { useNavigate } from "react-router-dom";
 
@@ -9,9 +9,11 @@ import { useNavigate } from "react-router-dom";
 
 const Bookings = () => {
     const bookings = useSelector((state) => state.orders)
+    const showCategoryLoader = useSelector((state) => state.categoryLoader)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     useEffect(() => {
+      dispatch(categoryloader(true));
         dispatch(fetchBookings({userName: localStorage.userName}))
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
@@ -19,7 +21,10 @@ const Bookings = () => {
     return (
         <>
     <MenuDrawer />
+    
         <Grid container spacing={5} columns={{xs:1, sm:1, md:2}}>
+        {showCategoryLoader ? (<Box sx={{width: '100%', m: 2, mt:35}}><CircularProgress /></Box>) : (<>
+
         {(bookings && bookings?.length) ? bookings?.map((booking) => (
               <>
               <Grid item xs={1} sm={1} md={1} height={{xs:300, sm:300, md:250}}>
@@ -86,6 +91,8 @@ const Bookings = () => {
           </Card>
         
         </>}
+        </>
+        )}
         </Grid>
         </>
     )

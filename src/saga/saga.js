@@ -2,7 +2,8 @@ import {
   put,
   call,
   // takeLatest,
-  takeEvery
+  takeEvery,
+  delay
 } from 'redux-saga/effects'
 
 import * as actionTypes from '../actionTypes/actionTypes'
@@ -23,13 +24,6 @@ function* getTodos() {
   yield put({ type: actionTypes.TEST, payload: todos })
 }
 
-// function* signUpUser(action) {
-//   const url = `${apiHost}authentication/registration`
-//   const resigstration = yield call(postAxios, url)
-//   yield put({ type: actionTypes.SIGN_UP, payload: resigstration })
-//   action.payload.navigate('/tasks')
-
-// }
 function* registerUser(action) {
   const url = `${apiHost}authentication/registration`
   const data = action.payload.userDetails
@@ -56,6 +50,8 @@ function* loginUser(action) {
 function* getEvents() {
   const url = `${apiHost}events`
   const events = yield call(getAxios, url)
+  yield delay(1000);
+  yield put({ type: actionTypes.CATEGORY_LOADER, payload: false });
   yield put({ type: actionTypes.FETCH_EVENTS, payload: events })
 }
 
@@ -67,12 +63,17 @@ function* addNewEvent(action) {
 }
 function* bookTicketEvent(action) {
   const url = `${apiHost}booking`
-  const events = yield call(postAxios, url, action.payload)
+  const events = yield call(postAxios, url, action.payload.payload)
+  yield delay(1000);
+  yield put({ type: actionTypes.CATEGORY_LOADER, payload: false });
+  action.payload.navigate('/bookings')
   yield put({ type: actionTypes.BOOK_TICKET, payload: events })
 }
 function* fetchBookings(action) {
   const url = `${apiHost}booking/orders`
   const events = yield call(postAxios, url, action.payload)
+  yield delay(3000);
+  yield put({ type: actionTypes.CATEGORY_LOADER, payload: false });
   yield put({ type: actionTypes.FETCH_BOOKINGS, payload: events })
 }
 

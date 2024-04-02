@@ -73,6 +73,11 @@ export const appReducer = (state = initState, action) => {
         ...state,
         directions: {}
       }
+      case actionTypes.CATEGORY_LOADER:
+        return {
+            ...state,
+            categoryLoader: action.payload
+        }
     default:
       return state
   }

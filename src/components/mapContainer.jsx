@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // App.js
 
-import { CardContent, Grid, Paper } from '@mui/material'
+import { Box, CardContent, CircularProgress, Grid, Paper } from '@mui/material'
 // import {makeStyles} from '@mui/styles'
 import L from 'leaflet'
 import "leaflet-routing-machine"
@@ -14,7 +14,7 @@ import { Card, CardHeader } from 'react-bootstrap'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 import { useDispatch, useSelector } from 'react-redux'
 import '../App.css'
-import { fetchEvents, resetDirections } from '../actions/actions'
+import { categoryloader, fetchEvents, resetDirections } from '../actions/actions'
 import Routing from './Routing'
 import PopViewer from './popViewer'
 
@@ -55,9 +55,11 @@ const MapContainerComponent = () => {
   }
 
   useEffect(() => {
+    dispatch(categoryloader(true));
     dispatch(fetchEvents())
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+  const showCategoryLoader = useSelector((state) => state.categoryLoader)
 
   useEffect(() => {
     if(eventsData?.length) {
@@ -114,9 +116,12 @@ const MapContainerComponent = () => {
     <React.Fragment>
     <div className="container">        
     </div>
+
       <Card sx={{ width: '100%' }} raised={'true'}>
         <CardHeader title='Create Task'></CardHeader>
         <CardContent>
+        {showCategoryLoader ? (<Box sx={{width: '100%', m: 2, mt:30}}><CircularProgress /></Box>) : (<>
+
           <Grid
             container
             spacing={{ xs: 1, md: 5 }}
@@ -163,6 +168,7 @@ const MapContainerComponent = () => {
 
             </Grid>
           </Grid>
+          </>)}
         </CardContent>
       </Card>
     </React.Fragment>

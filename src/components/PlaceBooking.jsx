@@ -2,89 +2,62 @@
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import { Card, CardActionArea, CardContent, CardMedia, Grid, IconButton, Typography } from "@mui/material";
-import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
-import React, { useEffect, useRef, useState } from "react";
+import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Grid, IconButton, TextField, Typography } from "@mui/material";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { bookTicket, setTicketCounter } from "../actions/actions";
+import { bookTicket, categoryloader, setTicketCounter } from "../actions/actions";
 import MenuDrawer from './MenuDrawer';
 const PlaceBooking = (props) => {
-    const [success, setSuccess] = useState(false);
+    // const [success, setSuccess] = useState(false);
     const ticketCounter = useSelector((state) => state.ticketCounter);
-    const [orderID, setOrderID] = useState(false);
     const event = useSelector(state => state.eventForBooking)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const ticketCounterRef = useRef(0);
-    // creates a paypal order
-    const createOrder = (data, actions) => {
-        return actions.order.create({
-            purchase_units: [
-                {
-                    description: event.eventDesc,
-                    name: event.eventName,
-                    id: event.event_id,
-                    amount: {
-                        currency_code: "",
-                        value: event?.ticketCost * ticketCounterRef.current,
-                    },
-                },
-            ],
-            application_context: {
-                shipping_preference: "NO_SHIPPING"
-            }
-        }).then((orderID) => {
-            setOrderID(orderID);
-            return orderID;
-        });
-    };
+    const [cardNumber, setCardNumber] = useState('');
+    const [expiry, setExpiry] = useState('');
+    const [cvv, setCvv] = useState('');
+    const [error, setError] = useState('');
+    const showCategoryLoader = useSelector((state) => state.categoryLoader)
 
-    // check Approval
-    const onApprove = (data, actions) => {
-        return actions.order.capture().then(function (details) {
-                const payload = {
-                    event_id: event.event_id,
-                    "tickets": Number(ticketCounterRef.current),
-                    "userName": localStorage.userName
-                   }
-                   dispatch(bookTicket(payload));
-                const cardOrder = [
-                    {
-                        name: details.purchase_units[0].description,
-                        price: details.purchase_units[0].amount.value,
-                        desc: details.purchase_units[0].description + 'Paid By Card',
-                        id: Math.floor(Math.random() * 10000)
-                    },
-                    ...JSON.parse(localStorage.paypalOrder)
-                ]
-                localStorage.setItem('paypalOrder', JSON.stringify(cardOrder));
-            setSuccess(true);
-            navigate('/')
-        });
-    };
-    //capture likely error
-    const onError = (data, actions) => {
-        alert("An Error occured with your payment ");
-    };
+    const palceBooking = () =>  {
+        dispatch(categoryloader(true));
+        const payload = {
+            event_id: event.event_id,
+            "tickets": Number(ticketCounterRef.current),
+            "userName": localStorage.userName
+           }
+           dispatch(bookTicket({payload, navigate}));
+           
+    }
 
-    useEffect(() => {
-        if (success) {
-            alert("Payment successful!!");
-            console.log('Order successful . Your order id is--', orderID);
-        }
-    }, [success]);
+    const handleSubmit = (event) => {
+      event.preventDefault();
+  
+      // Basic validation
+      if(!ticketCounter) {
+        alert("Please add tickets required");
+      }
+      if (!cardNumber || !expiry || !cvv) {
+        setError('Please fill in all fields');
+        return;
+      } else {
+        palceBooking()
+      }
+  
+    //   const cardDetails = { cardNumber, expiry, cvv };
+    };
 
     return (<>
         <MenuDrawer />
 
         <Grid container rowSpacing={15} columnSpacing={5} columns={{ xs: 1, sm: 6, md: 12 }}>
-            <PayPalScriptProvider options={{ "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID || 'Aa4MYovYOFd5O59Ku1JuZkmTR5IoKU6GcVkQNlPI4y2vptTFOZi78txK0jFCudzPWinbRiX6cxgH2kCJ'}}>
                 <Grid item xs={1} rowSpacing={15}  sm={1} md={6}>
                 <Card sx={{ textAlign: 'left' }}>
                             <CardMedia
                               sx={{ height: 280 }}
-                              image={`data:image/jpeg;base64,${event.image}`}
+                              image={`data:image/jpeg;base64,${event?.image}`}
                             />
                             <CardContent>
                             <Grid container spacing={3}>
@@ -95,7 +68,7 @@ const PlaceBooking = (props) => {
                         </Grid>
                         <Grid item xs={6}>
                               <Typography gutterBottom variant="body2">
-                                {event.name}
+                                {event?.name}
                               </Typography>
                               </Grid>
                               <Grid item xs={4}>
@@ -105,7 +78,7 @@ const PlaceBooking = (props) => {
                               </Grid>
                               <Grid item xs={6}>
                               <Typography variant="body2" color="text.secondary">
-                                {event.eventDesc}
+                                {event?.eventDesc}
                               </Typography>
                               </Grid>
                               <Grid item xs={4}>
@@ -113,7 +86,7 @@ const PlaceBooking = (props) => {
                               </Grid>
                               <Grid item xs={6}>
                               <Typography variant="body2" color="text.secondary">
-                                {event.eventDateTime}
+                                {event?.eventDateTime}
                               </Typography>
                               </Grid>
                               <Grid item xs={4}>
@@ -121,7 +94,7 @@ const PlaceBooking = (props) => {
                               </Grid>
                               <Grid item xs={6}>
                               <Typography variant="body2" color="text.secondary">
-                                {event.eventVenue}
+                                {event?.eventVenue}
                               </Typography>
                               </Grid>
                               <Grid item xs={4}>
@@ -129,7 +102,7 @@ const PlaceBooking = (props) => {
                               </Grid>
                               <Grid item xs={6}>
                               <Typography variant="body2" color="text.secondary">
-                                {event.ticketCost}
+                                {event?.ticketCost}
                               </Typography>
                               </Grid>
                               <Grid item xs={4} sx={{mt:2}}>
@@ -157,7 +130,7 @@ const PlaceBooking = (props) => {
                               </Grid>
                               <Grid item xs={6}>
                               <Typography variant="body2" color="text.secondary">
-                                {event.ticketCost * ticketCounterRef.current}
+                                {event?.ticketCost * ticketCounterRef.current}
                               </Typography>
                               </Grid>
                               </Grid>
@@ -166,21 +139,58 @@ const PlaceBooking = (props) => {
                 </Grid>
 
                 <Grid item xs={1} sm={1} md={6}>
-                    <Card sx={{ width: '100%', mt: 0, mb: 1, cursor: 'pointer' }} raised >
-                        <CardActionArea>
+                {showCategoryLoader ? (<Box sx={{width: '100%', m: 2}}><CircularProgress /></Box>) :
+
+                    (<Card sx={{ width: '100%', mt: 0, mb: 1, cursor: 'pointer' }} raised >
                             <CardContent>
-                                <PayPalButtons
-                                    style={{ layout: "vertical", position: 'absolute', marginLeft: '20%', marginTop: '20px' }}
-                                    createOrder={createOrder}
-                                    onApprove={onApprove}
-                                    onError={onError}
-                                />
+                            <form onSubmit={handleSubmit}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            label="Card Number"
+            variant="outlined"
+            fullWidth
+            value={cardNumber}
+            onChange={(e) => setCardNumber(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            label="Expiry Date"
+            variant="outlined"
+            fullWidth
+            value={expiry}
+            onChange={(e) => setExpiry(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            label="CVV"
+            variant="outlined"
+            fullWidth
+            value={cvv}
+            onChange={(e) => setCvv(e.target.value)}
+          />
+        </Grid>
+        {error && (
+          <Grid item xs={12}>
+            <Typography variant="body2" color="error">
+              {error}
+            </Typography>
+          </Grid>
+        )}
+        <Grid item xs={12}>
+          <Button variant="contained" color="primary" type="submit">
+            Submit
+          </Button>
+        </Grid>
+      </Grid>
+    </form>
+
                             </CardContent>
-                        </CardActionArea>
-                    </Card>
+                    </Card>)}
                 </Grid>
 
-            </PayPalScriptProvider>
         </Grid>
         </>
     );

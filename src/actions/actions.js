@@ -55,3 +55,6 @@ export const setTicketCounter = (payload) => {
 export const resetDirections = (payload) => {
     return action(actionTypes.RESET_DIRECTIONS, payload)
 }
+export const categoryloader = (payload) => {
+    return action(actionTypes.CATEGORY_LOADER, payload)
+}

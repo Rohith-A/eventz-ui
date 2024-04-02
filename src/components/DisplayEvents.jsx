@@ -1,22 +1,26 @@
 import {
+  Box,
   Button,
   Card,
   CardActions,
   CardContent,
   CardMedia,
+  CircularProgress,
   Typography
 } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { fetchEvents, setProductForBuying } from '../actions/actions'
+import { categoryloader, fetchEvents, setProductForBuying } from '../actions/actions'
 
 const DisplayEvents = () => {
   const eventsData = useSelector(state => state?.mapEvents)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const showCategoryLoader = useSelector((state) => state.categoryLoader)
   useEffect(() => {
+    dispatch(categoryloader(true));
     dispatch(fetchEvents())
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -27,9 +31,11 @@ const DisplayEvents = () => {
         spacing={5}
         columns={ 10}
       >
+      {showCategoryLoader ? (<Box sx={{width: '100%', m: 2, mt:30}}><CircularProgress /></Box>) : (<>
+
         {eventsData?.map(event => (
-          <Grid item spacing={5} xs={12} sm={12} md={3} height={{xs:555, sm:555, md:555}}>
-            <Card sx={{ width: '300px', height: '100%' }} >
+          <Grid key={event.event_id} item md={3} height={{xs:555, sm:555, md:555}}>
+            <Card key={event.event_id} sx={{ width: '300px', height: '100%' }} >
               <CardMedia
                 sx={{ height: 150 }}
                 image={`data:image/jpeg;base64,${event.image}`}
@@ -100,6 +106,7 @@ const DisplayEvents = () => {
             </Card>
           </Grid>
         ))}
+        </>)}
       </Grid>
     </>
   )
