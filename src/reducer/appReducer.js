@@ -1,5 +1,6 @@
 import { initialState } from './initialState'
 import * as actionTypes from '../actionTypes/actionTypes'
+import { parseWeatherData } from '../utility/utility'
 
 const initState = initialState
 
@@ -77,6 +78,17 @@ export const appReducer = (state = initState, action) => {
         return {
             ...state,
             categoryLoader: action.payload
+        }
+      case actionTypes.FETCH_WEATHER:
+        const data = action.payload.list.map((v) => ({...parseWeatherData(v), dt_txt: v.dt_txt}))
+        return {
+            ...state,
+            weatherData: data
+        }
+      case actionTypes.FETCH_WEATHER_TODAY:
+        return {
+            ...state,
+            weatherToday: parseWeatherData(action.payload)
         }
     default:
       return state

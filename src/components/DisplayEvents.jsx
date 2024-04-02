@@ -35,7 +35,7 @@ const DisplayEvents = () => {
 
         {eventsData?.map(event => (
           <Grid key={event.event_id} item md={3} height={{xs:555, sm:555, md:555}}>
-            <Card key={event.event_id} sx={{ width: '300px', height: '100%' }} >
+            <Card key={event.event_id} sx={{ width: '300px', height: '100%' }} raised>
               <CardMedia
                 sx={{ height: 150 }}
                 image={`data:image/jpeg;base64,${event.image}`}

@@ -4,15 +4,16 @@ import {
     Card,
     CardContent,
     CardHeader,
+    CircularProgress,
     TextField,
     Typography
 } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { addNewEvent } from '../actions/actions'
+import { addNewEvent, categoryloader } from '../actions/actions'
 import MenuDrawer from './MenuDrawer'
 
 const AddEvent = () => {
@@ -28,6 +29,7 @@ const AddEvent = () => {
 
   const handleUpload = async () => {
     if(!Object.keys(validate()).length) {
+      dispatch(categoryloader(true));
     try {
         const reader = new FileReader();
         reader.onloadend = async () => {
@@ -66,12 +68,16 @@ const AddEvent = () => {
     setError(errObj)
     return errObj
   }
+  const showCategoryLoader = useSelector((state) => state.categoryLoader)
 
   return (
     <>
     <MenuDrawer />
+    
       <Card raised>
         <CardHeader title='Add New Event'></CardHeader>
+        {showCategoryLoader ? (<Box sx={{width: '100%', m: 2, mt:20, mb: 15}}><CircularProgress /></Box>) : (<>
+
         <CardContent>
           <Box
             sx={{
@@ -320,6 +326,7 @@ const AddEvent = () => {
             </Button>
           </Grid>
         </CardContent>
+        </>)}
       </Card>
     </>
   )

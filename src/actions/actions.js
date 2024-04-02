@@ -58,3 +58,9 @@ export const resetDirections = (payload) => {
 export const categoryloader = (payload) => {
     return action(actionTypes.CATEGORY_LOADER, payload)
 }
+export const fetchWeatherData = (payload) => {
+    return action(actionTypes.FETCH_WEATHER_API, payload)
+}
+export const fetchTodayWeatherData = (payload) => {
+    return action(actionTypes.FETCH_WEATHER_TODAY_API, payload)
+}

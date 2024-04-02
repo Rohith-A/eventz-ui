@@ -7,29 +7,24 @@ import {
 } from 'redux-saga/effects'
 
 import * as actionTypes from '../actionTypes/actionTypes'
-
+import WeatherData from '../components/weatherData.json'
+import TodayWeather from '../components/TodayWeather.json'
 import { getAxios, postAxios } from '../api/api';
 
 const apiHost = process.env.REACT_APP_API_HOST || 'http://evntz-node-api-ra-ie.ap-south-1.elasticbeanstalk.com/';
 console.log(process.env)
-function* getUsersList() {
-  const url = `${apiHost}authentication/users`
-  const userslist = yield call(getAxios, url)
-  yield put({ type: actionTypes.USERS_LIST, payload: userslist })
-}
 
-function* getTodos() {
-  const url = `${apiHost}harrypotter/characters`
-  const todos = yield call(getAxios, url)
-  yield put({ type: actionTypes.TEST, payload: todos })
-}
 
 function* registerUser(action) {
+  try {
   const url = `${apiHost}authentication/registration`
   const data = action.payload.userDetails
   const resigstration = yield call(postAxios, url, data)
   yield put({ type: actionTypes.SIGN_UP, payload: resigstration })
   action.payload.navigate('/login')
+  }catch(e) {
+    alert('Server Error')
+  }
 
 }
 function* loginUser(action) {
@@ -48,43 +43,87 @@ function* loginUser(action) {
 }
 
 function* getEvents() {
+  try {
   const url = `${apiHost}events`
   const events = yield call(getAxios, url)
   yield delay(1000);
   yield put({ type: actionTypes.CATEGORY_LOADER, payload: false });
   yield put({ type: actionTypes.FETCH_EVENTS, payload: events })
+}catch(e) {
+  alert('Server Error')
+}
+  
 }
 
 function* addNewEvent(action) {
+  try{
   const url = `${apiHost}events`
   const events = yield call(postAxios, url, action.payload.eventData)
+  yield delay(1000);
+  yield put({ type: actionTypes.CATEGORY_LOADER, payload: false });
   action.payload.navigate('/events')
   yield put({ type: actionTypes.ADD_NEW_EVENT, payload: events })
+}catch(e) {
+  alert('Server Error')
 }
+}
+
 function* bookTicketEvent(action) {
+  try{
   const url = `${apiHost}booking`
   const events = yield call(postAxios, url, action.payload.payload)
   yield delay(1000);
   yield put({ type: actionTypes.CATEGORY_LOADER, payload: false });
   action.payload.navigate('/bookings')
   yield put({ type: actionTypes.BOOK_TICKET, payload: events })
+}catch(e) {
+  alert('Server Error')
 }
+}
+
 function* fetchBookings(action) {
+  try{
   const url = `${apiHost}booking/orders`
   const events = yield call(postAxios, url, action.payload)
   yield delay(3000);
   yield put({ type: actionTypes.CATEGORY_LOADER, payload: false });
   yield put({ type: actionTypes.FETCH_BOOKINGS, payload: events })
+}catch(e) {
+  alert('Server Error')
+}
+}
+
+function* getWeatherData(action) {
+  try{
+  // const url = `http://x22203389scapp-env.eba-z5az2ytx.ap-south-1.elasticbeanstalk.com/weather/forecast?city=${action.payload.city}`
+  // const url = '../../src/components/weatherData.json'
+  // const weatherdata = yield call(getAxios, url)
+  yield delay(1000);
+  yield put({ type: actionTypes.CATEGORY_LOADER, payload: false });
+  yield put({ type: actionTypes.FETCH_WEATHER, payload: WeatherData });
+}catch(e) {
+  alert('Server Error')
+}
+}
+function* getTodayWeatherData(action) {
+  try{
+  // const url = `http://x22203389scapp-env.eba-z5az2ytx.ap-south-1.elasticbeanstalk.com/weather/today?city=${action.payload.city}`
+  // const weatherdata = yield call(getAxios, url)
+  yield delay(1000);
+  yield put({ type: actionTypes.CATEGORY_LOADER, payload: false });
+  yield put({ type: actionTypes.FETCH_WEATHER_TODAY, payload: TodayWeather });
+}catch(e) {
+  alert('Server Error')
+}
 }
 
 export default function* rootSaga() {
-  yield takeEvery(actionTypes.TEST_API, getTodos)
-  // yield takeEvery(actionTypes.SIGN_UP_API, signUpUser)
-  yield takeEvery(actionTypes.USERS_LIST_API, getUsersList)
   yield takeEvery(actionTypes.LOGIN_API, loginUser)
   yield takeEvery(actionTypes.REGISTRATION_API, registerUser)
   yield takeEvery(actionTypes.FETCH_EVENTS_API, getEvents)
   yield takeEvery(actionTypes.ADD_NEW_EVENT_API, addNewEvent)
   yield takeEvery(actionTypes.BOOK_TICKET_API, bookTicketEvent)
   yield takeEvery(actionTypes.FETCH_BOOKINGS_API, fetchBookings)
+  yield takeEvery(actionTypes.FETCH_WEATHER_API, getWeatherData)
+  yield takeEvery(actionTypes.FETCH_WEATHER_TODAY_API, getTodayWeatherData)
 }

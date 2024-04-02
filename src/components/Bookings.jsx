@@ -27,43 +27,41 @@ const Bookings = () => {
 
         {(bookings && bookings?.length) ? bookings?.map((booking) => (
               <>
-              <Grid item xs={1} sm={1} md={1} height={{xs:300, sm:300, md:250}}>
-              <Card sx={{ display: 'flex', height: '100%' }} raised>
+              <Grid key={booking?.event?.event_id+Math.random()} item xs={1} sm={1} md={1} height={{xs:300, sm:300, md:250}}>
+              <Card key={booking?.event?.event_id} sx={{ display: 'flex', height: '100%' }} raised>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <CardContent sx={{ flex: '1 0 auto' }}>
+          <CardContent key={booking?.event?.event_id+Math.random()} sx={{ flex: '1 0 auto' }}>
             <Typography component="div" variant="h5">
-            {booking.event.eventName}
+            {booking?.event?.eventName}
             </Typography>
             
             <Grid item xs={12} sm={12} md={4}>
             <Typography variant="body2" gutterBottom>
-                Event Details:   {booking.event.eventDesc}
+                Event Details:   {booking?.event?.eventDesc}
             </Typography>
         </Grid>
         <Grid item xs={12} sm={12} md={4}>
         <Typography variant="body2" gutterBottom>
-            Event Date:   {booking.event.eventDateTime}
+            Event Date:   {booking?.event?.eventDateTime}
         </Typography>
     </Grid>
         <Grid item xs={12} sm={12} md={6}>
         <Typography gutterBottom variant="body2">
-                Event Venue: {booking.event.eventVenue}
+                Event Venue: {booking?.event?.eventVenue}
               </Typography>
               </Grid>
         <Grid item xs={12} sm={12} md={6}>
         <Typography gutterBottom variant="body2">
-                Tickets: {booking.booking.tickets}
+                Tickets: {booking?.booking?.tickets}
               </Typography>
               </Grid>
           </CardContent>
         </Box>
         <CardMedia
+        key={booking?.event?.event_id+Math.random()}
           component="img"
           sx={{ width: '40%' }}
-          image={`data:image/jpeg;base64,${booking.event.imageData}`}
-                    
-          
-        alt="Live from space album cover"
+          image={`data:image/jpeg;base64,${booking?.event?.imageData}`}
         />
       </Card>
 

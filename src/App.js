@@ -33,7 +33,6 @@ function App() {
       mt : 5,
       mb: 15,
       width: '100%',
-      height: '90vh',
       backgroundColour: 'none'
   }}>
         <Routes>

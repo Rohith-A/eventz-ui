@@ -54,7 +54,7 @@ const PlaceBooking = (props) => {
 
         <Grid container rowSpacing={15} columnSpacing={5} columns={{ xs: 1, sm: 6, md: 12 }}>
                 <Grid item xs={1} rowSpacing={15}  sm={1} md={6}>
-                <Card sx={{ textAlign: 'left' }}>
+                <Card sx={{ textAlign: 'left' }} raised>
                             <CardMedia
                               sx={{ height: 280 }}
                               image={`data:image/jpeg;base64,${event?.image}`}
@@ -102,7 +102,7 @@ const PlaceBooking = (props) => {
                               </Grid>
                               <Grid item xs={6}>
                               <Typography variant="body2" color="text.secondary">
-                                {event?.ticketCost}
+                                € {event?.ticketCost}
                               </Typography>
                               </Grid>
                               <Grid item xs={4} sx={{mt:2}}>
@@ -130,7 +130,7 @@ const PlaceBooking = (props) => {
                               </Grid>
                               <Grid item xs={6}>
                               <Typography variant="body2" color="text.secondary">
-                                {event?.ticketCost * ticketCounterRef.current}
+                              € {event?.ticketCost * ticketCounterRef.current}
                               </Typography>
                               </Grid>
                               </Grid>

@@ -7,6 +7,7 @@ import DisplayEvents from './DisplayEvents';
 import MapContainerComponent from './mapContainer';
 import { TabContext } from '@mui/lab';
 import MenuDrawer from './MenuDrawer';
+import WeatherDisplay from './WeatherDisplay';
 
 export default function CenteredTabs() {
   const [value, setValue] = React.useState('0');
@@ -23,6 +24,7 @@ export default function CenteredTabs() {
       <Tabs value={value} onChange={handleChange} centered>
         <Tab label="List View" value="0"/>
         <Tab label="Map View" value="1"/>
+        <Tab label="Weather" value="2"/>
       </Tabs>
 
       <TabPanel value="0" index={0} >
@@ -30,6 +32,9 @@ export default function CenteredTabs() {
     </TabPanel>
     <TabPanel value="1" index={1} >
      <MapContainerComponent />
+    </TabPanel>
+    <TabPanel value="2" index={2} >
+     <WeatherDisplay />
     </TabPanel>
     </TabContext>
     </Box>
