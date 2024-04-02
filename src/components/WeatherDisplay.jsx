@@ -8,7 +8,7 @@ const WeatherDisplay = () => {
     const [city,setCity] = useState('Dublin');
     const weatherToday  = useSelector((state) => state.weatherToday)
     const weatherData  = useSelector((state) => state.weatherData)
-    const [allWeatherData, ] = useState((weatherToday&& weatherData) && [weatherToday, ...weatherData]);
+    const [allWeatherData, setAllWeatherData] = useState([]);
     const showCategoryLoader = useSelector((state) => state.categoryLoader)
    const dispatch = useDispatch();
     const getTodayWeather = () => {
@@ -22,6 +22,12 @@ const WeatherDisplay = () => {
         getTodayWeather();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+    useEffect(() => {
+        if(weatherToday && weatherData) {
+        setAllWeatherData([weatherToday, ...weatherData])
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [weatherToday,weatherData])
 
     const searchCityData = () => {
         dispatch(categoryloader(true));
@@ -33,11 +39,11 @@ const WeatherDisplay = () => {
         return (<Grid item><Card raised>
             <CardActionArea>
               <CardMedia
-              sx={{ width: '230px', height: '200px', background: '#4e647557' }}
+              sx={{ width: {sm:'350px', md: '250px', xs: '350px'}, height: '200px', background: '#4e647557' }}
                 component="img"
                 image={`https://openweathermap.org/img/wn/${weather.weather.icon}@4x.png`}
               />
-              <CardContent sx={{ width: '230px' }}>
+              <CardContent sx={{ width: {sm:'350px', md: '250px', xs: '350px'} }}>
                 <Typography gutterBottom variant="h5" component="div">
                 {weather.weather.description}
                 </Typography>
@@ -65,13 +71,14 @@ const WeatherDisplay = () => {
     }
     return(
         <React.Fragment>
-       <Grid container ml={5} spacing={3} rowSpacing={5} columns={{xs:1, sm:1, md:5}}>
+       <Grid container spacing={3} rowSpacing={5} columns={{xs:1, sm:1, md:5}}>
        
-              <Grid item  xs={2} sm={2} md={4.5}>
+              <Grid item xs={1} sm={1} md={4.5}>
                 <TextField
                   required
                   type='text'
                   fullWidth
+                  width={'90%'}
                   value={city}
                   InputProps={{
                     endAdornment: (

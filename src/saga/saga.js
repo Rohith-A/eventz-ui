@@ -95,23 +95,23 @@ function* fetchBookings(action) {
 
 function* getWeatherData(action) {
   try{
-  // const url = `http://x22203389scapp-env.eba-z5az2ytx.ap-south-1.elasticbeanstalk.com/weather/forecast?city=${action.payload.city}`
+  const url = `http://x22203389scapp-env.eba-z5az2ytx.ap-south-1.elasticbeanstalk.com/weather/forecast?city=${action.payload.city}`
   // const url = '../../src/components/weatherData.json'
-  // const weatherdata = yield call(getAxios, url)
+  const weatherdata = yield call(getAxios, url)
   yield delay(1000);
   yield put({ type: actionTypes.CATEGORY_LOADER, payload: false });
-  yield put({ type: actionTypes.FETCH_WEATHER, payload: WeatherData });
+  yield put({ type: actionTypes.FETCH_WEATHER, payload: weatherdata.data });
 }catch(e) {
   alert('Server Error')
 }
 }
 function* getTodayWeatherData(action) {
   try{
-  // const url = `http://x22203389scapp-env.eba-z5az2ytx.ap-south-1.elasticbeanstalk.com/weather/today?city=${action.payload.city}`
-  // const weatherdata = yield call(getAxios, url)
+  const url = `http://x22203389scapp-env.eba-z5az2ytx.ap-south-1.elasticbeanstalk.com/weather/today?city=${action.payload.city}`
+  const TodayWeather = yield call(getAxios, url)
   yield delay(1000);
   yield put({ type: actionTypes.CATEGORY_LOADER, payload: false });
-  yield put({ type: actionTypes.FETCH_WEATHER_TODAY, payload: TodayWeather });
+  yield put({ type: actionTypes.FETCH_WEATHER_TODAY, payload: TodayWeather.data });
 }catch(e) {
   alert('Server Error')
 }

@@ -100,7 +100,7 @@ const Header = props => {
             <Typography sx={{ color: 'white', mr: 2 }}>
               {props?.user?.user?.username}
             </Typography>
-            <Avatar sx={{ width: 32, height: 32 }}>
+            <Avatar sx={{ width: 32, height: 32, mr: 5}}>
               {`${userName[0]}`.toUpperCase()}
             </Avatar>
           </IconButton>

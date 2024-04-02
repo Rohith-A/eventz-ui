@@ -27,8 +27,14 @@ const Bookings = () => {
 
         {(bookings && bookings?.length) ? bookings?.map((booking) => (
               <>
-              <Grid key={booking?.event?.event_id+Math.random()} item xs={1} sm={1} md={1} height={{xs:300, sm:300, md:250}}>
-              <Card key={booking?.event?.event_id} sx={{ display: 'flex', height: '100%' }} raised>
+              <Grid key={booking?.event?.event_id+Math.random()} item xs={1} sm={1} md={1} height={{xs:450, sm:450, md:500}}>
+              <Card key={booking?.event?.event_id} sx={{ height: '100%' }} raised>
+              <CardMedia
+        key={booking?.event?.event_id+Math.random()}
+          component="img"
+          sx={{ width: '100%' }}
+          image={`data:image/jpeg;base64,${booking?.event?.imageData}`}
+        />
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <CardContent key={booking?.event?.event_id+Math.random()} sx={{ flex: '1 0 auto' }}>
             <Typography component="div" variant="h5">
@@ -57,12 +63,7 @@ const Bookings = () => {
               </Grid>
           </CardContent>
         </Box>
-        <CardMedia
-        key={booking?.event?.event_id+Math.random()}
-          component="img"
-          sx={{ width: '40%' }}
-          image={`data:image/jpeg;base64,${booking?.event?.imageData}`}
-        />
+        
       </Card>
 
           </Grid>
