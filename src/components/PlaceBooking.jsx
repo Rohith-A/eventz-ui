@@ -56,7 +56,7 @@ const PlaceBooking = (props) => {
                 <Grid item xs={1} rowSpacing={15}  sm={1} md={6}>
                 <Card sx={{ textAlign: 'left' }} raised>
                             <CardMedia
-                              sx={{ height: 280 }}
+                              sx={{ height: {sm:'200px', md: '250px', xs: '180px'} , width: '100%' }}
                               image={`data:image/jpeg;base64,${event?.image}`}
                             />
                             <CardContent>
