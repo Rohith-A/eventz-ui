@@ -1,14 +1,12 @@
 import {
-  put,
   call,
+  delay,
+  put,
   // takeLatest,
-  takeEvery,
-  delay
-} from 'redux-saga/effects'
+  takeEvery
+} from 'redux-saga/effects';
 
-import * as actionTypes from '../actionTypes/actionTypes'
-import WeatherData from '../components/weatherData.json'
-import TodayWeather from '../components/TodayWeather.json'
+import * as actionTypes from '../actionTypes/actionTypes';
 import { getAxios, postAxios } from '../api/api';
 
 const apiHost = process.env.REACT_APP_API_HOST || 'http://evntz-node-api-ra-ie.ap-south-1.elasticbeanstalk.com/';
@@ -85,7 +83,7 @@ function* fetchBookings(action) {
   try{
   const url = `${apiHost}booking/orders`
   const events = yield call(postAxios, url, action.payload)
-  yield delay(3000);
+  yield delay(1000);
   yield put({ type: actionTypes.CATEGORY_LOADER, payload: false });
   yield put({ type: actionTypes.FETCH_BOOKINGS, payload: events })
 }catch(e) {
