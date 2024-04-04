@@ -8,6 +8,7 @@ import MapContainerComponent from './mapContainer';
 import { TabContext } from '@mui/lab';
 import MenuDrawer from './MenuDrawer';
 import WeatherDisplay from './WeatherDisplay';
+import ScrollToTopButton from './MoveToTop';
 
 export default function CenteredTabs() {
   const [value, setValue] = React.useState('0');
@@ -37,6 +38,7 @@ export default function CenteredTabs() {
      <WeatherDisplay />
     </TabPanel>
     </TabContext>
+    <ScrollToTopButton />
     </Box>
     </>
   );

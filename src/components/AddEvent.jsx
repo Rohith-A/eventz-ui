@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { addNewEvent, categoryloader } from '../actions/actions'
 import MenuDrawer from './MenuDrawer'
+import ScrollToTopButton from './MoveToTop'
 
 const AddEvent = () => {
   const dispatch = useDispatch()
@@ -328,6 +329,7 @@ const AddEvent = () => {
         </CardContent>
         </>)}
       </Card>
+      <ScrollToTopButton />
     </>
   )
 }

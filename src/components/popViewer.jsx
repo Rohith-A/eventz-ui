@@ -16,46 +16,46 @@ export default function PopViewer(props) {
     const dispatch = useDispatch()
   return (<>
     {event.name==='Current location' ? (<Typography>{event.name}</Typography>) :
-    (<Card sx={{ width: '300px' }}>
+    (<Card sx={{ width: {sm:'200px', md: '300px', xs: '200px'} }}>
     <CardMedia
-      sx={{ height: 140 }}
+      sx={{width: {sm:'200px', md: '300px', xs: '200px'}, height: 100 }}
       image={`data:image/jpeg;base64,${event.image}`}
       title="green iguana"
     />
     <CardContent>
     <Grid container spacing={0}>
-    <Grid item xs={6}>
-    <Typography variant="body2" gutterBottom>
-        Event Name:
+    <Grid item xs={12} md={6} sm={6}>
+    <Typography fontWeight={800} variant="body2" gutterBottom>
+        Event Name: 
     </Typography>
 </Grid>
-<Grid item xs={6}>
+<Grid item xs={12} md={6} sm={6}>
       <Typography gutterBottom variant="body2">
         {event.name}
       </Typography>
       </Grid>
-      <Grid item xs={6}>
-      <Typography variant="body2" gutterBottom>
+      <Grid item xs={12} md={6} sm={6}>
+      <Typography fontWeight={800} variant="body2" gutterBottom>
         Event Details:
     </Typography>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={12} md={6} sm={6}>
       <Typography variant="body2" color="text.secondary">
         {event.eventDesc}
       </Typography>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item fontWeight={800} xs={12} md={6} sm={6}>
       Date:
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={12} md={6} sm={6}>
       <Typography variant="body2" color="text.secondary">
         {event.eventDateTime}
       </Typography>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item fontWeight={800} xs={12} md={6} sm={6}>
       Venue
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={12} md={6} sm={6}>
       <Typography variant="body2" color="text.secondary">
         {event.eventVenue}
       </Typography>
@@ -63,10 +63,14 @@ export default function PopViewer(props) {
       </Grid>
     </CardContent>
     <CardActions>
+    <Grid item xs={12} md={6} sm={6}>
       <Button size="small" onClick={() => {
         dispatch(setProductForBuying(event))
         navigate('/bookTickets')
       }}>Book tickets</Button>
+      </Grid>
+      <Grid item xs={12} md={6} sm={6}>
+
       <Button size="small"
       onClick={() => {
         dispatch(resetDirections())
@@ -96,7 +100,7 @@ export default function PopViewer(props) {
       }}
      
       >Get Directions</Button>
-  
+  </Grid>
     </CardActions>
   </Card>)
   }

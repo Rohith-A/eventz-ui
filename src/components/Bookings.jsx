@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { categoryloader, fetchBookings } from "../actions/actions";
 import MenuDrawer from "./MenuDrawer";
 import { useNavigate } from "react-router-dom";
+import ScrollToTopButton from "./MoveToTop";
 
 
 
@@ -93,6 +94,8 @@ const Bookings = () => {
         </>
         )}
         </Grid>
+        <ScrollToTopButton />
+
         </>
     )
 }

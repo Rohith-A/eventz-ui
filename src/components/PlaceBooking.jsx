@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { bookTicket, categoryloader, setTicketCounter } from "../actions/actions";
 import MenuDrawer from './MenuDrawer';
+import ScrollToTopButton from './MoveToTop';
 const PlaceBooking = (props) => {
     // const [success, setSuccess] = useState(false);
     const ticketCounter = useSelector((state) => state.ticketCounter);
@@ -192,6 +193,8 @@ const PlaceBooking = (props) => {
                 </Grid>
 
         </Grid>
+        <ScrollToTopButton />
+
         </>
     );
 }
